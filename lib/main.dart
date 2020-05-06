@@ -9,68 +9,73 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      home: new MyHomePage(
-        title:this.title,
+      home: new FirstScreen(),
+    );
+  }
+}
+
+class FirstScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Home'),
+      ),
+      body: Center(
+        child: Container(
+          child: Text('Home Screen'),
+        ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: 1,
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            title: Text("Home"),
+            icon: Icon(Icons.home),
+          ),
+          BottomNavigationBarItem(
+            title: Text("next"),
+            icon: Icon(Icons.navigate_next),
+          ),
+        ],
+        onTap: (int value) {
+          if(value == 1) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => SecondScreen()),
+            );
+          }
+        },
       ),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({this.title}) : super();
-
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class Data {
-  int _price;
-  String _name;
-
-  Data(this._name, this._price): super();
-
-  @override
-  String toString() {
-    return _name + ':' + _price.toString() + '円';
-  }
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  static final _data = [
-    Data('Aplle', 200),
-    Data('Orange', 150),
-    Data('Peach', 300)
-  ];
-  Data _item;
-
-  @override
-  void initState() {
-    super.initState();
-    _item = _data[0];
-  }
-
-  void _setData() {
-    setState(() {
-      _item = (_data..shuffle()).first;
-    });
-  }
-
+class SecondScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text("Next"),
       ),
-      body: Text(
-        _item.toString(),
-        style: TextStyle(fontSize: 32.0)
+      body: Center(
+        child: Text("Next Screen"),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _setData,
-        tooltip: 'set message.',
-        child: Icon(Icons.star),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: 0,
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            title: Text("prev"),
+            icon: Icon(Icons.navigate_before),
+          ),
+          BottomNavigationBarItem(
+            title: Text("?"),
+            icon: Icon(Icons.android),
+          )
+        ],
+        onTap: (int value) {
+          if( value==0 ) Navigator.pop(context);
+        },
       ),
     );
   }
